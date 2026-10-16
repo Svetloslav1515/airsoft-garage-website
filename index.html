@@ -49,8 +49,8 @@
         }
 
         .logo img {
-            height: 40px;
-            margin-right: 10px;
+            height: 50px;
+            margin-right: 15px;
         }
 
         .logo h1 {
@@ -363,10 +363,16 @@
                 text-align: center;
                 margin-bottom: 1rem;
                 padding-left: 0;
+                justify-content: center;
+            }
+            
+            .logo img {
+                margin-right: 10px;
+                margin-bottom: 0;
             }
         }
 
-        /* Animation for the hero section buttons */
+        /* Animation for hero section buttons */
         @keyframes pulse {
             0% { transform: scale(1); }
             50% { transform: scale(1.05); }
@@ -405,7 +411,7 @@
 <body>
     <header>
         <div class="logo">
-            <img src="logo.png" alt="Airsoft Garage Logo">
+            <img src="./logo.png" alt="Airsoft Garage Logo">
             <h1>Airsoft Garage</h1>
         </div>
         <nav>
@@ -464,7 +470,6 @@
                         <p data-lang-key="about_content2">Empty template - information to be added later</p>
                     </div>
                     <div class="about-image">
-                        <!-- Placeholder for about image -->
                         <p>Image placeholder</p>
                     </div>
                 </div>
@@ -484,18 +489,12 @@
                     <div class="contact-form">
                         <!-- Splitforms integration -->
                         <div class="form-instruction">
-                            <h3>Testing Instructions for Local Form Submissions:</h3>
-                            <p><strong>Note:</strong> When testing locally, form submissions require special handling:</p>
+                            <h3>Testing Instructions for Form Submissions:</h3>
+                            <p><strong>Note:</strong> Form submissions will be sent to your configured email address (chaos420blazeit@gmail.com) when hosted on a web server.</p>
                             <ul>
-                                <li>This form will work properly when hosted on a web server</li>
-                                <li>For local testing: 
-                                    <ol>
-                                        <li>Save this page to a web server (any free hosting works)</li>
-                                        <li>Or temporarily remove the Splitforms integration and use the test form at https://splitforms.com/test/887cd08404fb4302a4968f5f1ca93a55</li>
-                                        <li>Submit a test using the "Send a test submission" button in your Splitforms dashboard</li>
-                                    </ol>
-                                </li>
-                                <li>Once live on a web server, all submissions will automatically email to svetloslav.ivanov@abv.bg</li>
+                                <li>Test email notifications in the Splitforms dashboard</li>
+                                <li>Form submissions should arrive within seconds after being submitted</li>
+                                <li>Check your spam/junk folder if notification doesn't appear immediately</li>
                             </ul>
                         </div>
                         
@@ -590,15 +589,15 @@
                 nav_about: "За нас",
                 nav_contact: "Контакти",
                 hero_title: "Профессионални поправки и поддръжка на реплики",
-                hero_subtitle: "Вашият надежден партньор за поправките на Вашето екипировка",
+                hero_subtitle: "Вашият надежден партньор за поправките на вашето екипировка",
                 hero_button: "Получи оферта",
                 services_title: "Наши услуги",
                 service1_title: "Поправка на реплики",
                 service1_description: "Профессионални поправки на всички видове реплики, включително AEGs, Springers и електрически системи.",
                 service2_title: "Смяна на запасни части",
-                service2_description: "Оригинални и висококачествени запасни части за Вашето екипировка.",
+                service2_description: "Оригинални и висококачествени запасни части за вашето екипировка.",
                 service3_title: "Поддръжка",
-                service3_description: "Редовна поддръжка, за да гарантираме безпроблемно функциониране на репликите Ви.",
+                service3_description: "Редовна поддръжка, за да гарантираме безпроблемно функциониране на репликите ви.",
                 service4_title: "Персонализирани изработки",
                 service4_description: "Персонализирани модификации и изработка по специфични нужди.",
                 about_title: "За Airsoft Garage",
@@ -721,7 +720,6 @@
                     e.preventDefault();
                     
                     // Simple validation - already handled by HTML required attribute
-                    // But we can add additional validation if needed
                     if (!document.getElementById('name').value || 
                         !document.getElementById('email').value || 
                         !document.getElementById('message').value) {
@@ -729,13 +727,8 @@
                         return;
                     }
                     
-                    // For local testing - show helpful information message
-                    if (window.location.protocol === 'file:') {
-                        alert('Form submitted successfully! When hosted on a web server, emails will be sent to svetloslav.ivanov@abv.bg');
-                    } else {
-                        // Form submission would happen here when run on a server
-                        alert('Form submitted successfully! The email should arrive shortly.');
-                    }
+                    // Show success notification
+                    alert('Form submitted successfully! Notification should arrive shortly at chaos420blazeit@gmail.com');
                     
                     // Reset form
                     repairForm.reset();
@@ -758,7 +751,7 @@
                 });
             }, observerOptions);
 
-            // Observe all service cards and section headings
+            // Observe service cards and section headings
             const serviceCards = document.querySelectorAll('.service-card');
             const sectionHeadings = document.querySelectorAll('section h2');
             
