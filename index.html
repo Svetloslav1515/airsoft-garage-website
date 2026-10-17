@@ -277,6 +277,15 @@
             transition: background-color 0.3s;
         }
 
+        .form-status {
+            min-height: 1.5em;
+            margin-top: 1rem;
+            font-weight: 600;
+        }
+
+        .form-status[data-state="success"] { color: #247a3d; }
+        .form-status[data-state="error"] { color: #b42318; }
+
         .form-group {
             margin-bottom: 1rem;
         }
@@ -406,25 +415,7 @@
         .form-instruction li {
             margin-bottom: 0.5rem;
         }
-        
-        /* Critical debugging section */
-        .critical-debug {
-            background-color: #ffebee;
-            border: 1px solid #ffcdd2;
-            padding: 1rem;
-            margin-top: 1rem;
-            border-radius: 4px;
-        }
-        
-        .critical-debug h3 {
-            margin-top: 0;
-            color: #c62828;
-        }
-        
-        .critical-debug p {
-            margin-bottom: 0.5rem;
-        }
-    </style>
+</style>
 </head>
 <body>
     <header>
@@ -507,25 +498,6 @@
                         <p><strong data-lang-key="facebook_label">Facebook:</strong> <a href="https://www.facebook.com/profile.php?id=61589718997147&locale=bg_BG" target="_blank" style="color: #3b5998;">Airsoft Garage Facebook</a></p>
                     </div>
                     <div class="contact-form">
-                        <!-- Critical Debug Information -->
-                        <div class="critical-debug">
-                            <h3>CRITICAL: Email Submission Debugging</h3>
-                            <p><strong>Current form configuration:</strong></p>
-                            <ul>
-                                <li>Access key: 1938c1f02f0945a9b4b70450e3a534d9</li>
-                                <li>Notification email: chaos420blazeit@gmail.com</li>
-                                <li>Form action URL: https://splitforms.com/api/submit</li>
-                            </ul>
-                            <p><strong>If you're still not receiving emails:</strong></p>
-                            <ol>
-                                <li>Confirm the form key matches exactly in Splitforms dashboard</li>
-                                <li>Ensure notification email address is correct in your Splitforms account settings</li>
-                                <li>Check if there's a domain restriction that might be affecting submission</li>
-                                <li>Try testing with a different browser or incognito mode</li>
-                            </ol>
-                        </div>
-
-                        <!-- Main Form -->
                         <form action="https://splitforms.com/api/submit" method="POST">
                             <input type="hidden" name="access_key" value="1938c1f02f0945a9b4b70450e3a534d9" />
                             <div class="form-group">
@@ -555,6 +527,7 @@
                                 <textarea id="message" name="message" rows="4" required autocomplete="message"></textarea>
                             </div>
                             <button type="submit" data-lang-key="form_submit">Send Inquiry</button>
+                            <p id="formStatus" class="form-status" role="status" aria-live="polite"></p>
                         </form>
                     </div>
                 </div>
@@ -572,7 +545,6 @@
         // Check if we're running in a browser that supports console logging
         if (typeof console !== 'undefined') {
             console.log("Airsoft Garage website loaded successfully");
-            console.log("Form submission should go to chaos420blazeit@gmail.com with access key: 1938c1f02f0945a9b4b70450e3a534d9");
         }
 
         // Language data
@@ -746,26 +718,54 @@
                 });
             }
 
-            // Form submission handling
+            // Send contact form submissions to Splitforms and report the actual result.
             const repairForm = document.querySelector('.contact-form form');
             if (repairForm) {
-                repairForm.addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    
-                    // Simple validation - already handled by HTML required attribute
-                    if (!document.getElementById('name').value || 
-                        !document.getElementById('email').value || 
-                        !document.getElementById('message').value) {
-                        alert("Please fill in all required fields");
-                        return;
+                const formStatus = document.getElementById('formStatus');
+                const submitButton = repairForm.querySelector('button[type="submit"]');
+                const messages = {
+                    en: {
+                        sending: 'Sending your message...',
+                        sent: 'Thanks! Your message was sent successfully.',
+                        failed: 'We could not send your message. Please try again.'
+                    },
+                    bg: {
+                        sending: 'Изпращане на съобщението...',
+                        sent: 'Благодарим! Съобщението е изпратено успешно.',
+                        failed: 'Съобщението не беше изпратено. Опитайте отново.'
                     }
-                    
-                    // Show success notification
-                    console.log("Form submitted to splitforms.com with new key");
-                    alert('Form submitted successfully! Check your email at chaos420blazeit@gmail.com for confirmation.');
-                    
-                    // Reset form
-                    repairForm.reset();
+                };
+
+                repairForm.addEventListener('submit', async function(e) {
+                    e.preventDefault();
+                    const form = repairForm;
+                    const language = messages[currentLang] ? currentLang : 'en';
+                    formStatus.textContent = messages[language].sending;
+                    formStatus.dataset.state = 'sending';
+                    submitButton.disabled = true;
+
+                    try {
+                        const response = await fetch(form.action, {
+                            method: 'POST',
+                            headers: { Accept: 'application/json' },
+                            body: new FormData(form)
+                        });
+                        const result = await response.json();
+
+                        if (response.ok && result.success === true) {
+                            form.reset();
+                            formStatus.textContent = messages[language].sent;
+                            formStatus.dataset.state = 'success';
+                        } else {
+                            formStatus.textContent = result.message || messages[language].failed;
+                            formStatus.dataset.state = 'error';
+                        }
+                    } catch (error) {
+                        formStatus.textContent = messages[language].failed;
+                        formStatus.dataset.state = 'error';
+                    } finally {
+                        submitButton.disabled = false;
+                    }
                 });
             }
 
