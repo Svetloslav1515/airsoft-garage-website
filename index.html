@@ -406,13 +406,40 @@
         .form-instruction li {
             margin-bottom: 0.5rem;
         }
+        
+        /* Debugging styles */
+        .debug-section {
+            background-color: #e3f2fd;
+            border: 1px solid #bbdefb;
+            padding: 1rem;
+            margin-top: 1rem;
+            border-radius: 4px;
+        }
+        
+        .debug-section h3 {
+            margin-top: 0;
+            color: #1565c0;
+        }
+        
+        /* Alert message when form submitted */
+        .form-alert {
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+            padding: 1rem;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
     </style>
 </head>
 <body>
     <header>
-        <div class="logo">
-            <img src="./logo.png" alt="Airsoft Garage Logo">
-            <h1>Airsoft Garage</h1>
+        <div class="logo-wrapper">
+            <div class="logo">
+                <img src="./logo.png" alt="Airsoft Garage Logo">
+                <h1>Airsoft Garage</h1>
+            </div>
         </div>
         <nav>
             <ul>
@@ -487,35 +514,41 @@
                         <p><strong data-lang-key="facebook_label">Facebook:</strong> <a href="https://www.facebook.com/profile.php?id=61589718997147&locale=bg_BG" target="_blank" style="color: #3b5998;">Airsoft Garage Facebook</a></p>
                     </div>
                     <div class="contact-form">
-                        <!-- Splitforms integration -->
-                        <div class="form-instruction">
-                            <h3>Testing Instructions for Form Submissions:</h3>
-                            <p><strong>Note:</strong> Form submissions will be sent to your configured email address (chaos420blazeit@gmail.com) when hosted on a web server.</p>
+                        <!-- Debug Information Section -->
+                        <div class="debug-section">
+                            <h3>Form Submission Debug Info:</h3>
+                            <p>If you're not receiving emails, please check:</p>
+                            <ol>
+                                <li>Your Splitforms account email (chaos420blazeit@gmail.com) is properly set</li>
+                                <li>Your form access key: 887cd08404fb4302a4968f5f1ca93a55</li>
+                                <li>Try submitting the test email first from Splitforms dashboard</li>
+                            </ol>
+                            <p><strong>Note:</strong> If all seems fine but it's still not working, please try:</p>
                             <ul>
-                                <li>Test email notifications in the Splitforms dashboard</li>
-                                <li>Form submissions should arrive within seconds after being submitted</li>
-                                <li>Check your spam/junk folder if notification doesn't appear immediately</li>
+                                <li>Refreshing your browser</li>
+                                <li>Clearing browser cache</li>
+                                <li>Submitting again from a different browser or incognito mode</li>
                             </ul>
                         </div>
-                        
+
                         <!-- Main Form -->
                         <form action="https://splitforms.com/api/submit" method="POST">
                             <input type="hidden" name="access_key" value="887cd08404fb4302a4968f5f1ca93a55" />
                             <div class="form-group">
                                 <label for="name" data-lang-key="form_name">Name:</label>
-                                <input type="text" id="name" name="name" required>
+                                <input type="text" id="name" name="name" required autocomplete="name">
                             </div>
                             <div class="form-group">
                                 <label for="email" data-lang-key="form_email">Email:</label>
-                                <input type="email" id="email" name="email" required>
+                                <input type="email" id="email" name="email" required autocomplete="email">
                             </div>
                             <div class="form-group">
                                 <label for="phone" data-lang-key="form_phone">Phone:</label>
-                                <input type="tel" id="phone" name="phone">
+                                <input type="tel" id="phone" name="phone" autocomplete="tel">
                             </div>
                             <div class="form-group">
                                 <label for="service" data-lang-key="form_service">Service Interested In:</label>
-                                <select id="service" name="service">
+                                <select id="service" name="service" autocomplete="section-website">
                                     <option value="" data-lang-key="form_select_option">Select a service</option>
                                     <option value="weapon-repair" data-lang-key="form_service1">Replica Repair</option>
                                     <option value="parts" data-lang-key="form_service2">Parts Replacement</option>
@@ -525,7 +558,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="message" data-lang-key="form_message">Message:</label>
-                                <textarea id="message" name="message" rows="4" required></textarea>
+                                <textarea id="message" name="message" rows="4" required autocomplete="message"></textarea>
                             </div>
                             <button type="submit" data-lang-key="form_submit">Send Inquiry</button>
                         </form>
@@ -542,6 +575,12 @@
     </footer>
 
     <script>
+        // Check if we're running in a browser that supports console logging
+        if (typeof console !== 'undefined') {
+            console.log("Airsoft Garage website loaded successfully");
+            console.log("Form submission should go to chaos420blazeit@gmail.com");
+        }
+
         // Language data
         const translations = {
             en: {
@@ -723,12 +762,13 @@
                     if (!document.getElementById('name').value || 
                         !document.getElementById('email').value || 
                         !document.getElementById('message').value) {
-                        alert(translations[currentLang].form_submit);
+                        alert("Please fill in all required fields");
                         return;
                     }
                     
                     // Show success notification
-                    alert('Form submitted successfully! Notification should arrive shortly at chaos420blazeit@gmail.com');
+                    console.log("Form submitted to splitforms.com");
+                    alert('Form submitted successfully! If you do not receive an email shortly, please check your spam folder.');
                     
                     // Reset form
                     repairForm.reset();
