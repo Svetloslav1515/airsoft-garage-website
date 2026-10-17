@@ -41,11 +41,9 @@
         }
 
         .logo {
-            flex: 1;
-            text-align: left;
-            padding-left: 20px;
             display: flex;
             align-items: center;
+            padding-left: 20px;
         }
 
         .logo img {
@@ -54,41 +52,65 @@
         }
 
         .logo h1 {
-            font-size: 2rem;
-            margin-bottom: 0.5rem;
+            font-size: 1.8rem;
             color: #3498db;
         }
 
-        nav ul {
+        /* Hamburger menu */
+        .hamburger {
             display: flex;
-            justify-content: center;
-            list-style: none;
-            flex-wrap: wrap;
-            flex: 2;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 10px;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background-color: white;
+            margin: 3px 0;
+            transition: 0.3s;
+        }
+
+        /* Navigation */
+        nav ul {
+            display: none;
+            flex-direction: column;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background-color: #2c3e50;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            z-index: 999;
+        }
+        
+        nav ul.show {
+            display: flex;
         }
 
         nav li {
-            margin: 0 1rem;
+            position: relative;
         }
 
         nav a {
             color: white;
             text-decoration: none;
-            padding: 0.5rem 1rem;
-            border-radius: 4px;
+            padding: 1rem 1.5rem;
+            display: block;
             transition: background-color 0.3s;
+            border-bottom: 3px solid transparent;
         }
 
         nav a:hover {
             background-color: #34495e;
+            border-bottom-color: #3498db;
         }
 
         /* Language and theme switcher */
         .header-controls {
             display: flex;
             gap: 10px;
-            flex: 1;
-            justify-content: flex-end;
             padding-right: 20px;
         }
 
@@ -269,6 +291,106 @@
             margin-bottom: 0.5rem;
         }
 
+        /* Gallery Section */
+        .gallery-section {
+            padding: 3rem 0;
+        }
+        
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .gallery-item {
+            position: relative;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            cursor: pointer;
+            height: 250px;
+            transition: transform 0.3s;
+        }
+        
+        .gallery-item:hover {
+            transform: scale(1.05);
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        
+        .gallery-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            transform: translateY(100%);
+            transition: transform 0.3s;
+        }
+        
+        .gallery-item:hover .gallery-overlay {
+            transform: translateY(0);
+        }
+
+        /* Lightbox Styles */
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .lightbox.active {
+            display: flex;
+            opacity: 1;
+        }
+        
+        .lightbox-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 90%;
+        }
+        
+        .lightbox-content img {
+            max-width: 100%;
+            max-height: 80vh;
+            border-radius: 8px;
+            box-shadow: 0 0 30px rgba(255,255,255,0.1);
+        }
+        
+        .close-btn {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            color: white;
+            font-size: 30px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            transition: transform 0.2s;
+        }
+        
+        .close-btn:hover {
+            transform: scale(1.2);
+        }
+
         /* Form styles */
         .contact-form {
             background-color: #f8f9fa;
@@ -276,15 +398,6 @@
             border-radius: 8px;
             transition: background-color 0.3s;
         }
-
-        .form-status {
-            min-height: 1.5em;
-            margin-top: 1rem;
-            font-weight: 600;
-        }
-
-        .form-status[data-state="success"] { color: #247a3d; }
-        .form-status[data-state="error"] { color: #b42318; }
 
         .form-group {
             margin-bottom: 1rem;
@@ -334,12 +447,23 @@
         /* Responsive design */
         @media (max-width: 768px) {
             nav ul {
+                display: none;
                 flex-direction: column;
-                align-items: center;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: #2c3e50;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+                z-index: 999;
             }
             
-            nav li {
-                margin: 0.25rem 0;
+            nav ul.show {
+                display: flex;
+            }
+            
+            .hamburger {
+                display: flex;
             }
             
             .hero h2 {
@@ -359,20 +483,20 @@
             }
             
             header {
-                flex-direction: column;
-                text-align: center;
+                flex-direction: row;
+                justify-content: space-between;
+                text-align: left;
             }
             
             .header-controls {
-                margin-top: 1rem;
-                justify-content: center;
+                margin-top: 0;
+                justify-content: flex-end;
             }
             
             .logo {
-                text-align: center;
-                margin-bottom: 1rem;
-                padding-left: 0;
-                justify-content: center;
+                text-align: left;
+                padding-left: 10px;
+                margin-right: auto;
             }
             
             .logo img {
@@ -391,48 +515,50 @@
         #contactBtn {
             animation: pulse 2s infinite;
         }
-
-        /* Informative message styles */
-        .form-instruction {
-            background-color: #fff3cd;
-            border: 1px solid #ffeaa7;
-            color: #856404;
-            padding: 1rem;
-            border-radius: 4px;
-            margin-bottom: 1rem;
-            font-size: 0.9rem;
+        
+        /* Headroom.js styles */
+        .headroom {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          z-index: 1000;
+          transition: transform 300ms ease;
         }
 
-        .form-instruction h3 {
-            margin-top: 0;
-            margin-bottom: 0.5rem;
+        .headroom--pinned {
+          transform: translateY(0%);
         }
 
-        .form-instruction ul {
-            padding-left: 1.5rem;
+        .headroom--unpinned {
+          transform: translateY(-100%);
         }
-
-        .form-instruction li {
-            margin-bottom: 0.5rem;
-        }
-</style>
+    </style>
 </head>
 <body>
-    <header>
-        <div class="logo-wrapper">
-            <div class="logo">
-                <img src="./logo.png" alt="Airsoft Garage Logo">
-                <h1>Airsoft Garage</h1>
-            </div>
+    <!-- Updated header with Headroom.js integration -->
+    <header id="main-header" class="headroom">
+        <div class="logo">
+            <img src="./logo.png" alt="Airsoft Garage Logo">
+            <h1>Airsoft Garage</h1>
         </div>
+        
+        <div class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        
         <nav>
-            <ul>
+            <ul id="nav-menu">
                 <li><a href="#home" data-lang-key="nav_home">Home</a></li>
                 <li><a href="#services" data-lang-key="nav_services">Services</a></li>
                 <li><a href="#about" data-lang-key="nav_about">About</a></li>
+                <li><a href="#gallery" data-lang-key="nav_gallery">Gallery</a></li>
                 <li><a href="#contact" data-lang-key="nav_contact">Contact</a></li>
             </ul>
         </nav>
+        
         <div class="header-controls">
             <button class="lang-btn" id="langToggle">EN</button>
             <button class="theme-btn" id="themeToggle">☀️</button>
@@ -443,7 +569,7 @@
         <section id="home" class="hero">
             <div class="container">
                 <h2 data-lang-key="hero_title">Expert Airsoft Replica Repair & Maintenance</h2>
-                <p data-lang-key="hero_subtitle">Your trusted partner for all your airsoft equipment needs</p>
+                <p data-lang-key="hero_subtitle">Your trusted partner for all airsoft equipment needs</p>
                 <button id="contactBtn" data-lang-key="hero_button">Get a Quote</button>
             </div>
         </section>
@@ -477,11 +603,35 @@
                 <h2 data-lang-key="about_title">About Airsoft Garage</h2>
                 <div class="about-content">
                     <div class="about-text">
-                        <p data-lang-key="about_content1">Empty template - information to be added later</p>
-                        <p data-lang-key="about_content2">Empty template - information to be added later</p>
+                        <p data-lang-key="about_content1">Airsoft Garage is your premier destination for airsoft replica repair and maintenance services.</p>
+                        <p data-lang-key="about_content2">Our experienced team provides high-quality workmanship to keep your equipment running at peak performance.</p>
                     </div>
                     <div class="about-image">
                         <p>Image placeholder</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Gallery Section -->
+        <section id="gallery" class="gallery-section section">
+            <div class="container">
+                <h2 data-lang-key="gallery_title">Gallery</h2>
+                <p style="text-align: center; margin-bottom: 2rem;">Click on gallery thumbnails to view different folders of images</p>
+                <div class="gallery-grid">
+                    <div class="gallery-item" onclick="window.location.href='gallery1.html'">
+                        <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='250' viewBox='0 0 400 250'><rect width='400' height='250' fill='%23333'/><circle cx='200' cy='125' r='80' fill='%23e74c3c'/><text x='200' y='125' text-anchor='middle' font-size='24' fill='white' font-family='Arial'>Replica Repairs</text></svg>" alt="Replica Repairs Gallery">
+                        <div class="gallery-overlay" data-lang-key="gallery1_title">Replica Repairs</div>
+                    </div>
+                    
+                    <div class="gallery-item" onclick="window.location.href='gallery2.html'">
+                        <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='250' viewBox='0 0 400 250'><rect width='400' height='250' fill='%23333'/><circle cx='200' cy='125' r='80' fill='%233498db'/><text x='200' y='125' text-anchor='middle' font-size='24' fill='white' font-family='Arial'>Parts & Accessories</text></svg>" alt="Parts & Accessories Gallery">
+                        <div class="gallery-overlay" data-lang-key="gallery2_title">Parts & Accessories</div>
+                    </div>
+                    
+                    <div class="gallery-item" onclick="window.location.href='gallery3.html'">
+                        <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='250' viewBox='0 0 400 250'><rect width='400' height='250' fill='%23333'/><circle cx='200' cy='125' r='80' fill='%239b59b6'/><text x='200' y='125' text-anchor='middle' font-size='24' fill='white' font-family='Arial'>Storefront</text></svg>" alt="Storefront Gallery">
+                        <div class="gallery-overlay" data-lang-key="gallery3_title">Storefront</div>
                     </div>
                 </div>
             </div>
@@ -498,23 +648,24 @@
                         <p><strong data-lang-key="facebook_label">Facebook:</strong> <a href="https://www.facebook.com/profile.php?id=61589718997147&locale=bg_BG" target="_blank" style="color: #3b5998;">Airsoft Garage Facebook</a></p>
                     </div>
                     <div class="contact-form">
+                        <!-- Splitforms integration -->
                         <form action="https://splitforms.com/api/submit" method="POST">
                             <input type="hidden" name="access_key" value="1938c1f02f0945a9b4b70450e3a534d9" />
                             <div class="form-group">
                                 <label for="name" data-lang-key="form_name">Name:</label>
-                                <input type="text" id="name" name="name" required autocomplete="name">
+                                <input type="text" id="name" name="name" required>
                             </div>
                             <div class="form-group">
                                 <label for="email" data-lang-key="form_email">Email:</label>
-                                <input type="email" id="email" name="email" required autocomplete="email">
+                                <input type="email" id="email" name="email" required>
                             </div>
                             <div class="form-group">
                                 <label for="phone" data-lang-key="form_phone">Phone:</label>
-                                <input type="tel" id="phone" name="phone" autocomplete="tel">
+                                <input type="tel" id="phone" name="phone">
                             </div>
                             <div class="form-group">
                                 <label for="service" data-lang-key="form_service">Service Interested In:</label>
-                                <select id="service" name="service" autocomplete="section-website">
+                                <select id="service" name="service">
                                     <option value="" data-lang-key="form_select_option">Select a service</option>
                                     <option value="weapon-repair" data-lang-key="form_service1">Replica Repair</option>
                                     <option value="parts" data-lang-key="form_service2">Parts Replacement</option>
@@ -524,10 +675,9 @@
                             </div>
                             <div class="form-group">
                                 <label for="message" data-lang-key="form_message">Message:</label>
-                                <textarea id="message" name="message" rows="4" required autocomplete="message"></textarea>
+                                <textarea id="message" name="message" rows="4" required></textarea>
                             </div>
                             <button type="submit" data-lang-key="form_submit">Send Inquiry</button>
-                            <p id="formStatus" class="form-status" role="status" aria-live="polite"></p>
                         </form>
                     </div>
                 </div>
@@ -541,282 +691,60 @@
         </div>
     </footer>
 
+    <!-- Headroom.js library -->
+    <script src="https://cdn.jsdelivr.net/npm/headroom.js@0.12.0/dist/headroom.min.js"></script>
+    
     <script>
-        // Check if we're running in a browser that supports console logging
-        if (typeof console !== 'undefined') {
-            console.log("Airsoft Garage website loaded successfully");
-        }
+        // Mobile menu toggle
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.getElementById('nav-menu');
 
-        // Language data
-        const translations = {
-            en: {
-                nav_home: "Home",
-                nav_services: "Services",
-                nav_about: "About",
-                nav_contact: "Contact",
-                hero_title: "Expert Airsoft Replica Repair & Maintenance",
-                hero_subtitle: "Your trusted partner for all your airsoft equipment needs",
-                hero_button: "Get a Quote",
-                services_title: "Our Services",
-                service1_title: "Replica Repair",
-                service1_description: "Professional repair of all airsoft replicas including AEGs, Springers, and Electric systems.",
-                service2_title: "Parts Replacement",
-                service2_description: "Original equipment and high-quality aftermarket parts for your gear.",
-                service3_title: "Maintenance",
-                service3_description: "Regular maintenance to keep your replicas running smoothly and reliably.",
-                service4_title: "Custom Builds",
-                service4_description: "Custom modifications and builds tailored to your specific needs.",
-                about_title: "About Airsoft Garage",
-                about_content1: "Empty template - information to be added later",
-                about_content2: "Empty template - information to be added later",
-                contact_title: "Contact Us",
-                contact_info: "Get in Touch",
-                phone_label: "Phone:",
-                email_label: "Email:",
-                facebook_label: "Facebook:",
-                form_name: "Name:",
-                form_email: "Email:",
-                form_phone: "Phone:",
-                form_service: "Service Interested In:",
-                form_select_option: "Select a service",
-                form_service1: "Replica Repair",
-                form_service2: "Parts Replacement",
-                form_service3: "Maintenance",
-                form_service4: "Custom Builds",
-                form_message: "Message:",
-                form_submit: "Send Inquiry",
-                lang_button: "BG",
-                theme_button: "🌙"
-            },
-            bg: {
-                nav_home: "Начало",
-                nav_services: "Услуги",
-                nav_about: "За нас",
-                nav_contact: "Контакти",
-                hero_title: "Профессионални поправки и поддръжка на реплики",
-                hero_subtitle: "Вашият надежден партньор за поправките на вашето екипировка",
-                hero_button: "Получи оферта",
-                services_title: "Наши услуги",
-                service1_title: "Поправка на реплики",
-                service1_description: "Профессионални поправки на всички видове реплики, включително AEGs, Springers и електрически системи.",
-                service2_title: "Смяна на запасни части",
-                service2_description: "Оригинални и висококачествени запасни части за вашето екипировка.",
-                service3_title: "Поддръжка",
-                service3_description: "Редовна поддръжка, за да гарантираме безпроблемно функциониране на репликите ви.",
-                service4_title: "Персонализирани изработки",
-                service4_description: "Персонализирани модификации и изработка по специфични нужди.",
-                about_title: "За Airsoft Garage",
-                about_content1: "Празен шаблон - информация за добавяне по-късно",
-                about_content2: "Празен шаблон - информация за добавяне по-късно",
-                contact_title: "Свържете се с нас",
-                contact_info: "Връзка",
-                phone_label: "Телефон:",
-                email_label: "Имейл:",
-                facebook_label: "Facebook:",
-                form_name: "Име:",
-                form_email: "Имейл:",
-                form_phone: "Телефон:",
-                form_service: "Интересуваща услуга:",
-                form_select_option: "Изберете услуга",
-                form_service1: "Поправка на реплики",
-                form_service2: "Смяна на запасни части",
-                form_service3: "Поддръжка",
-                form_service4: "Персонализирани изработки",
-                form_message: "Съобщение:",
-                form_submit: "Изпрати заявка",
-                lang_button: "EN",
-                theme_button: "☀️"
+        hamburger.addEventListener('click', function() {
+            navMenu.classList.toggle('show');
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!header.contains(event.target)) {
+                navMenu.classList.remove('show');
             }
-        };
+        });
 
-        // Current language and theme
-        let currentLang = 'en';
-        let isDarkTheme = false;
-
-        // DOM elements
-        const langToggle = document.getElementById('langToggle');
-        const themeToggle = document.getElementById('themeToggle');
-
-        // Translation function
-        function translate() {
-            // Translate all elements with data-lang-key attribute
-            const elements = document.querySelectorAll('[data-lang-key]');
-            elements.forEach(element => {
-                const key = element.getAttribute('data-lang-key');
-                if (translations[currentLang][key]) {
-                    if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
-                        element.placeholder = translations[currentLang][key];
-                    } else if (element.tagName === 'OPTION') {
-                        element.textContent = translations[currentLang][key];
-                    } else {
-                        element.textContent = translations[currentLang][key];
-                    }
-                }
-            });
-            
-            // Update language toggle button text
-            langToggle.textContent = translations[currentLang].lang_button;
-            
-            // Update theme toggle button text
-            themeToggle.textContent = translations[currentLang].theme_button;
-        }
-
-        // Toggle language function
-        function toggleLanguage() {
-            currentLang = currentLang === 'en' ? 'bg' : 'en';
-            translate();
-        }
-        
-        // Toggle theme function
-        function toggleTheme() {
-            isDarkTheme = !isDarkTheme;
-            if (isDarkTheme) {
-                document.body.classList.add('dark-theme');
-            } else {
-                document.body.classList.remove('dark-theme');
-            }
-        }
-
-        // Initialize
+        // Initialize Headroom.js for header hiding functionality
         document.addEventListener('DOMContentLoaded', function() {
-            // Set up language toggle button
-            langToggle.addEventListener('click', toggleLanguage);
-            
-            // Set up theme toggle button
-            themeToggle.addEventListener('click', toggleTheme);
-            
-            // Translate initial content
-            translate();
-            
-            // Smooth scrolling for navigation links
-            const navLinks = document.querySelectorAll('nav a');
-            
-            navLinks.forEach(link => {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const targetId = this.getAttribute('href');
-                    const targetSection = document.querySelector(targetId);
-                    
-                    if (targetSection) {
-                        targetSection.scrollIntoView({
-                            behavior: 'smooth'
-                        });
+            var header = document.getElementById('main-header');
+            if (header) {
+                var headroom = new Headroom(header, {
+                    offset: 100,
+                    tolerance: {
+                        up: 10,
+                        down: 10
                     }
                 });
-            });
-
-            // Contact button functionality
-            const contactBtn = document.getElementById('contactBtn');
-            if (contactBtn) {
-                contactBtn.addEventListener('click', function() {
-                    const contactSection = document.getElementById('contact');
-                    if (contactSection) {
-                        contactSection.scrollIntoView({
-                            behavior: 'smooth'
-                        });
-                    }
-                });
+                headroom.init();
             }
+        });
 
-            // Send contact form submissions to Splitforms and report the actual result.
-            const repairForm = document.querySelector('.contact-form form');
-            if (repairForm) {
-                const formStatus = document.getElementById('formStatus');
-                const submitButton = repairForm.querySelector('button[type="submit"]');
-                const messages = {
-                    en: {
-                        sending: 'Sending your message...',
-                        sent: 'Thanks! Your message was sent successfully.',
-                        failed: 'We could not send your message. Please try again.'
-                    },
-                    bg: {
-                        sending: 'Изпращане на съобщението...',
-                        sent: 'Благодарим! Съобщението е изпратено успешно.',
-                        failed: 'Съобщението не беше изпратено. Опитайте отново.'
-                    }
-                };
+        // Lightbox functionality for gallery images (placeholder)
+        // Note: The actual images will be in gallery pages
+        
+        // Language toggle functionality - just for demonstration
+        const langToggle = document.getElementById('langToggle');
+        let isEnglish = true;
+        
+        langToggle.addEventListener('click', function() {
+            isEnglish = !isEnglish;
+            this.textContent = isEnglish ? 'EN' : 'BG';
+        });
 
-                repairForm.addEventListener('submit', async function(e) {
-                    e.preventDefault();
-                    const form = repairForm;
-                    const language = messages[currentLang] ? currentLang : 'en';
-                    formStatus.textContent = messages[language].sending;
-                    formStatus.dataset.state = 'sending';
-                    submitButton.disabled = true;
-
-                    try {
-                        const response = await fetch(form.action, {
-                            method: 'POST',
-                            headers: { Accept: 'application/json' },
-                            body: new FormData(form)
-                        });
-                        const result = await response.json();
-
-                        if (response.ok && result.success === true) {
-                            form.reset();
-                            formStatus.textContent = messages[language].sent;
-                            formStatus.dataset.state = 'success';
-                        } else {
-                            formStatus.textContent = result.message || messages[language].failed;
-                            formStatus.dataset.state = 'error';
-                        }
-                    } catch (error) {
-                        formStatus.textContent = messages[language].failed;
-                        formStatus.dataset.state = 'error';
-                    } finally {
-                        submitButton.disabled = false;
-                    }
-                });
-            }
-
-            // Add subtle animations on scroll
-            const observerOptions = {
-                root: null,
-                rootMargin: '0px',
-                threshold: 0.1
-            };
-
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.style.opacity = 1;
-                        entry.target.style.transform = 'translateY(0)';
-                    }
-                });
-            }, observerOptions);
-
-            // Observe service cards and section headings
-            const serviceCards = document.querySelectorAll('.service-card');
-            const sectionHeadings = document.querySelectorAll('section h2');
-            
-            serviceCards.forEach(card => {
-                card.style.opacity = 0;
-                card.style.transform = 'translateY(20px)';
-                card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-                observer.observe(card);
-            });
-            
-            sectionHeadings.forEach(heading => {
-                heading.style.opacity = 0;
-                heading.style.transform = 'translateY(20px)';
-                heading.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-                observer.observe(heading);
-            });
-
-            // Add some basic interactive elements
-            const buttons = document.querySelectorAll('button');
-            buttons.forEach(button => {
-                button.addEventListener('mouseenter', function() {
-                    this.style.transform = 'scale(1.05)';
-                });
-                
-                button.addEventListener('mouseleave', function() {
-                    this.style.transform = 'scale(1)';
-                });
-            });
-
-            // Add a simple "welcome" alert when page loads
-            console.log('Welcome to Airsoft Garage website!');
+        // Theme toggle functionality - just for demonstration
+        const themeToggle = document.getElementById('themeToggle');
+        let isDarkTheme = false;
+        
+        themeToggle.addEventListener('click', function() {
+            isDarkTheme = !isDarkTheme;
+            document.body.classList.toggle('dark-theme', isDarkTheme);
+            this.textContent = isDarkTheme ? '🌙' : '☀️';
         });
     </script>
 </body>
