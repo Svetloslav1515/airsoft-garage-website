@@ -407,29 +407,22 @@
             margin-bottom: 0.5rem;
         }
         
-        /* Debugging styles */
-        .debug-section {
-            background-color: #e3f2fd;
-            border: 1px solid #bbdefb;
+        /* Critical debugging section */
+        .critical-debug {
+            background-color: #ffebee;
+            border: 1px solid #ffcdd2;
             padding: 1rem;
             margin-top: 1rem;
             border-radius: 4px;
         }
         
-        .debug-section h3 {
+        .critical-debug h3 {
             margin-top: 0;
-            color: #1565c0;
+            color: #c62828;
         }
         
-        /* Alert message when form submitted */
-        .form-alert {
-            background-color: #d4edda;
-            border: 1px solid #c3e6cb;
-            color: #155724;
-            padding: 1rem;
-            border-radius: 4px;
-            margin-bottom: 1rem;
-            font-size: 0.9rem;
+        .critical-debug p {
+            margin-bottom: 0.5rem;
         }
     </style>
 </head>
@@ -514,21 +507,22 @@
                         <p><strong data-lang-key="facebook_label">Facebook:</strong> <a href="https://www.facebook.com/profile.php?id=61589718997147&locale=bg_BG" target="_blank" style="color: #3b5998;">Airsoft Garage Facebook</a></p>
                     </div>
                     <div class="contact-form">
-                        <!-- Debug Information Section -->
-                        <div class="debug-section">
-                            <h3>Form Submission Debug Info:</h3>
-                            <p>If you're not receiving emails, please check:</p>
-                            <ol>
-                                <li>Your Splitforms account email (chaos420blazeit@gmail.com) is properly set</li>
-                                <li>Your form access key: 1938c1f02f0945a9b4b70450e3a534d9</li>
-                                <li>Try submitting the test email first from Splitforms dashboard</li>
-                            </ol>
-                            <p><strong>Note:</strong> If all seems fine but it's still not working, please try:</p>
+                        <!-- Critical Debug Information -->
+                        <div class="critical-debug">
+                            <h3>CRITICAL: Email Submission Debugging</h3>
+                            <p><strong>Current form configuration:</strong></p>
                             <ul>
-                                <li>Refreshing your browser</li>
-                                <li>Clearing browser cache</li>
-                                <li>Submitting again from a different browser or incognito mode</li>
+                                <li>Access key: 1938c1f02f0945a9b4b70450e3a534d9</li>
+                                <li>Notification email: chaos420blazeit@gmail.com</li>
+                                <li>Form action URL: https://splitforms.com/api/submit</li>
                             </ul>
+                            <p><strong>If you're still not receiving emails:</strong></p>
+                            <ol>
+                                <li>Confirm the form key matches exactly in Splitforms dashboard</li>
+                                <li>Ensure notification email address is correct in your Splitforms account settings</li>
+                                <li>Check if there's a domain restriction that might be affecting submission</li>
+                                <li>Try testing with a different browser or incognito mode</li>
+                            </ol>
                         </div>
 
                         <!-- Main Form -->
@@ -578,7 +572,7 @@
         // Check if we're running in a browser that supports console logging
         if (typeof console !== 'undefined') {
             console.log("Airsoft Garage website loaded successfully");
-            console.log("Form submission should go to chaos420blazeit@gmail.com");
+            console.log("Form submission should go to chaos420blazeit@gmail.com with access key: 1938c1f02f0945a9b4b70450e3a534d9");
         }
 
         // Language data
@@ -767,8 +761,8 @@
                     }
                     
                     // Show success notification
-                    console.log("Form submitted to splitforms.com");
-                    alert('Form submitted successfully! If you do not receive an email shortly, please check your spam folder.');
+                    console.log("Form submitted to splitforms.com with new key");
+                    alert('Form submitted successfully! Check your email at chaos420blazeit@gmail.com for confirmation.');
                     
                     // Reset form
                     repairForm.reset();
